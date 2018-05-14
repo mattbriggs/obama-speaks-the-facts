@@ -1,22 +1,9 @@
-'''Matt Briggs homework assignment.'''
+'''Scratch file for getting Obama to say something.'''
 
 import os
-
 import requests
-from flask import Flask, send_file, Response
-from bs4 import BeautifulSoup
 
-app = Flask(__name__)
-
-def get_fact():
-    '''Retreive a fact from unkno. '''
-    response = requests.get("http://unkno.com")
-    soup = BeautifulSoup(response.content, "html.parser")
-    facts = soup.find_all("div", id="content")
-
-    return facts[0].getText()
-
-def get_obama(phrase="Thanks Obama"):
+def get_obama(phrase="dog dog"):
     '''With a phrase return a URL for an MP4 of Obama saying it.'''
 
     outlink = "http://talkobamato.me/synthesize.py?speech_key="
@@ -48,19 +35,4 @@ def get_obama(phrase="Thanks Obama"):
     myURL = outlink + keyid
     return myURL
 
-@app.route('/')
-def home():
-    '''Return the URL that points to Mr. Obama saying a fact.'''
-    fact = get_fact()
-    factURL = get_obama(fact)
-    page = '''<h1>Mr. Obama has the facts.</h1>
-    <p>When you click on the following link, a URL will take you to the 
-    recording of the former president saying a random fact. Random, but a
-    fact.</p>
-    <p><a href="{}">Thanks Obama!</a></p>'''.format(factURL)
-
-    return page
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 6787))
-    app.run(host='localhost', port=port)
+print(get_obama("No one makes the cake like I do"))
